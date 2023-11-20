@@ -28,16 +28,16 @@ or just run it to use its cli interface
 ### Notes:
 - The key must be a positive integer and must not contain the digit 0.
 - The text must only contain UTF-8 characters.
-- The files must be in the same directory as the script or you have to specify the absolute path
+- The files must be in the same directory as the script, or you must specify the absolute path
 
 ### Examples:
 
 - To encrypt a string "Hello" with the key 5: `cipherBell -c -s "Hello" -k 5`
 - To decrypt an encrypted string "72F101F108F108F111F" with the key 5: `cipherBell -d -s "72F101F108F108F111F" -k 5`
 - To encrypt the text inside the file "text.txt" with the key inside the file "key.txt"
-    - the files are in the same directory as the script: `cipherBell -c -fs text.txt -k key.txt`
+    - the files are in the same directory as the script: `cipherBell -c -fs text.txt -fk key.txt`
     - the files are in a different directory
         - current directory
-            - Windows: `cipherBell -c -fs %cd%\text.txt -k %cd%\key.txt`
-            - Unix-like (Linux, macOS): `cipherBell -c -fs $(pwd)/text.txt -k $(pwd)/key.txt`
-        - just specify full path: `cipherBell -c -fs C:\...\text.txt -k C:\...\key.txt`
+            - Windows: `cipherBell -c -fs %cd%\text.txt -fk %cd%\key.txt`
+            - Unix-like (Linux, macOS): `cipherBell -c -fs $(pwd)/text.txt -fk $(pwd)/key.txt`
+        - just specify full path: `cipherBell -c -fs C:\...\text.txt -fk C:\...\key.txt`

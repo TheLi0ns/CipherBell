@@ -1,6 +1,3 @@
-import java.text.Normalizer;
-import java.util.ArrayList;
-
 public final class Cipher {
 
     private Cipher(){};

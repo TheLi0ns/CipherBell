@@ -1,8 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -55,8 +54,13 @@ public class Main {
         if(!key_mod.equals("-k") && !key_mod.equals("-fk"))
             throw new ArgException("Invalid key option specified. Please use '-k' for string input or '-fk' for file input.");
         else {
-            if(key_mod.equals("-k")) key = Integer.parseInt(args[4]);
-            else key = readFromFile(args[4]).nextInt();
+            try{
+                if(key_mod.equals("-k")) key = Integer.parseInt(args[4]);
+                else key = readFromFile(args[4]).nextInt();
+                if(String.valueOf(key).contains("0")) throw new InputMismatchException();
+            }catch (InputMismatchException | NumberFormatException e){
+                throw new ArgException("Invalid key: The key must be a positive integer and must not contain the digit 0.");
+            }
         }
     }
 
@@ -82,11 +86,18 @@ public class Main {
         System.out.println("Notes:");
         System.out.println("    The key must be a positive integer and must not contain the digit 0.");
         System.out.println("    The text must only contain UTF-8 characters.");
+        System.out.println("    The file must be in the same directory as the script or you must specify the absolute path");
+        System.out.println();
+        System.out.println("Examples:");
+        System.out.println("    To encrypt a string \"Hello\" with the key 5: cipherBell -c -s \"Hello\" -k 5");
+        System.out.println("    To decrypt an encrypted string \"72F101F108F108F111F\" with the key 5: cipherBell -d -s \"72F101F108F108F111F\" -k 5");
+        System.out.println("    To encrypt the text inside the file \"text.txt\" with the key inside the file \"key.txt\": cipherBell -c -fs text.txt -fk key.txt");
+
     }
 
     private static void normalExec(){
         Scanner sc = new Scanner(System.in);
-        int chose = 0;
+        int chose;
 
         do {
             printMenu();
@@ -134,8 +145,6 @@ public class Main {
 
     private static Scanner readFromFile(String path) throws ArgException {
         File f;
-        //if(Paths.get(path).isAbsolute()) f = new File(path);
-        //else f = new File(System.getProperty("user.dir") + "\\" + path);
         f = new File(path);
         try{
             return new Scanner(f);
